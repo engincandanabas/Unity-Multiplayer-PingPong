@@ -7,6 +7,7 @@ public class PlayerController : NetworkBehaviour
     public GameManager.PlayerType playerType;
 
     [SerializeField] private float movementSpeed;
+    [SerializeField] private float xOffset;
 
     private bool gameStarted = false;
     private GameManager.PlayerType thisPlayerType;
@@ -17,7 +18,14 @@ public class PlayerController : NetworkBehaviour
     {
         GameManager.Instance.OnGameStarted += GameManager_OnGameStarted;
         playerHalfHeight = GetComponent<SpriteRenderer>().bounds.extents.y / 2;
-        screenBounds=Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));  
+        screenBounds=Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        Debug.Log(screenBounds.x + " " + screenBounds.y);
+        var pos = this.transform.position;
+        if(xOffset<0)
+            pos.x= screenBounds.x+ xOffset;
+        else
+            pos.x= -screenBounds.x+ xOffset;
+        this.transform.position = pos;
     }
 
     private void Update()
