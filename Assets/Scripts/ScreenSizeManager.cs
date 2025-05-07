@@ -9,19 +9,18 @@ public class ScreenSizeManager : MonoBehaviour
 
     public Vector2 ScreenSize { get; private set; }
 
-    private Vector2 lastScreenSize;
     private void Awake()
     {
         Instance = this;
 
         ScreenSize = new Vector2(Screen.width, Screen.height);
-        lastScreenSize = ScreenSize;
     }
     private void Update()
     {
-        if (this.lastScreenSize != ScreenSize)
+        if (ScreenSize != new Vector2(Screen.width, Screen.height))
         {
-            this.lastScreenSize = ScreenSize;
+            ScreenSize = new Vector2(Screen.width, Screen.height);
+
             Debug.Log("Screen size changed");
             OnSizeChanged?.Invoke(this,null);                      
         }
