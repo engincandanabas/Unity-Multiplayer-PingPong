@@ -3,13 +3,17 @@ using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using static BallController;
 
 public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance { get; private set; }
 
     public event EventHandler OnGameStarted;
-    
+    public event EventHandler OnScoreChanged;
+
+    private NetworkVariable<int> playerLeftScore = new NetworkVariable<int>();
+    private NetworkVariable<int> playerRightScore = new NetworkVariable<int>();
 
     public enum PlayerType
     {
@@ -21,6 +25,10 @@ public class GameManager : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+    private void OnEnable()
+    {
+        BallController.Instance.OnPlayerScore += BallController_OnPlayerScore;
     }
 
     public override void OnNetworkSpawn()
@@ -38,6 +46,28 @@ public class GameManager : NetworkBehaviour
         {
             NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
         }
+
+        playerLeftScore.OnValueChanged += (int prevScore, int newScore) =>
+        {
+            OnScoreChanged?.Invoke(this, EventArgs.Empty);
+        };
+        playerRightScore.OnValueChanged += (int prevScore, int newScore) =>
+        {
+            OnScoreChanged?.Invoke(this, EventArgs.Empty);
+        };
+    }
+    private void BallController_OnPlayerScore(object sender, OnPlayerScoreArgs eventArgs)
+    {
+        if (eventArgs.scorePlayerType == PlayerType.PlayerLeft)
+        {
+            playerLeftScore.Value++;
+        }
+        else
+        {
+            playerRightScore.Value++;
+        }
+        Debug.Log("Player1Score : " + playerLeftScore);
+        Debug.Log("Player2Score : " + playerRightScore);
     }
 
     private void NetworkManager_OnClientConnectedCallback(ulong obj)

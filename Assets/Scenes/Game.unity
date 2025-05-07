@@ -286,7 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   playerType: 2
-  movementSpeed: 5
+  movementSpeed: 7.5
   xOffset: -2
 --- !u!114 &483478498
 MonoBehaviour:
@@ -1322,7 +1322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   playerType: 1
-  movementSpeed: 5
+  movementSpeed: 7.5
   xOffset: 2
 --- !u!114 &1576227417
 MonoBehaviour:
