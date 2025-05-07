@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,9 +9,13 @@ public class ScreenColliderController : MonoBehaviour
 
     private void Awake()
     {
-        SetColliderPositions();
+        SetColliderPositions(this,null);
     }
-    private void SetColliderPositions()
+    private void OnEnable()
+    {
+        ScreenSizeManager.Instance.OnSizeChanged += SetColliderPositions;
+    }
+    private void SetColliderPositions(object sender,EventArgs eventArgs)
     {
         var screenBounds=Camera.main.ScreenToWorldPoint(new Vector2 (Screen.width, Screen.height));
 

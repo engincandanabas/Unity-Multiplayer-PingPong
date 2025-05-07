@@ -18,14 +18,13 @@ public class PlayerController : NetworkBehaviour
     {
         GameManager.Instance.OnGameStarted += GameManager_OnGameStarted;
         playerHalfHeight = GetComponent<SpriteRenderer>().bounds.extents.y / 2;
-        screenBounds=Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        Debug.Log(screenBounds.x + " " + screenBounds.y);
-        var pos = this.transform.position;
-        if(xOffset<0)
-            pos.x= screenBounds.x+ xOffset;
-        else
-            pos.x= -screenBounds.x+ xOffset;
-        this.transform.position = pos;
+
+        SetPlayerPosition(this,null);
+    }
+
+    private void OnEnable()
+    {
+        ScreenSizeManager.Instance.OnSizeChanged += SetPlayerPosition;
     }
 
     private void Update()
@@ -49,5 +48,16 @@ public class PlayerController : NetworkBehaviour
     {
         gameStarted = true;
         thisPlayerType = GameManager.Instance.GetLocalPlayerType();
+    }
+    private void SetPlayerPosition(object sender, EventArgs eventArgs)
+    {
+        screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        Debug.Log(screenBounds.x + " " + screenBounds.y);
+        var pos = this.transform.position;
+        if (xOffset < 0)
+            pos.x = screenBounds.x + xOffset;
+        else
+            pos.x = -screenBounds.x + xOffset;
+        this.transform.position = pos;
     }
 }
