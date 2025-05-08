@@ -44,7 +44,7 @@ public class BallController : MonoBehaviour
     {
         this.Wait(2, () =>
             {
-                Vector2 dir = Vector2.left;
+                Vector2 dir =(UnityEngine.Random.Range(0,2)==0) ? Vector2.left:Vector2.right;
                 dir.y = UnityEngine.Random.Range(-maxInitialAngle, maxInitialAngle);
                 rb.linearVelocity = dir * movementSpeed;
             });

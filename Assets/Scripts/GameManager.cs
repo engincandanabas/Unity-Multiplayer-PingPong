@@ -66,8 +66,10 @@ public class GameManager : NetworkBehaviour
         {
             playerRightScore.Value++;
         }
-        Debug.Log("Player1Score : " + playerLeftScore);
-        Debug.Log("Player2Score : " + playerRightScore);
+        Debug.Log("Player1Score : " + playerLeftScore.Value);
+        Debug.Log("Player2Score : " + playerRightScore.Value);
+
+        OnScoreChanged?.Invoke(this,null);
     }
 
     private void NetworkManager_OnClientConnectedCallback(ulong obj)
@@ -87,5 +89,10 @@ public class GameManager : NetworkBehaviour
     public PlayerType GetLocalPlayerType()
     {
         return localPlayerType;
+    }
+    public void GetScores(out int player1Score, out int player2Score)
+    {
+        player1Score = this.playerLeftScore.Value;
+        player2Score = this.playerRightScore.Value;
     }
 }

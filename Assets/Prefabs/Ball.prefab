@@ -257,4 +257,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 10
-  maxInitialAngle: 0.67
+  maxInitialAngle: 0.2
+  velocityMultiplier: 1.1
