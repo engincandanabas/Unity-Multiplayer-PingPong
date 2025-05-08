@@ -101,7 +101,7 @@ public class LobbyManager : MonoBehaviour
                 {
                     if (IsLobbyHost())
                     {
-                        if (joinedLobby.Players.Count == 2)
+                        if (joinedLobby.Players.Count == 1)
                         {
                             // Two players have joined, start game
                             StartGame();
@@ -310,5 +310,6 @@ public class LobbyManager : MonoBehaviour
     public void UpdatePlayerName(string playerName)
     {
         this.playerName = playerName;
+        PlayerPrefs.SetString("Username", this.playerName);
     }
 }

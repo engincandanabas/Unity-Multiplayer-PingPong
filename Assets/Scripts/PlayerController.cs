@@ -17,14 +17,10 @@ public class PlayerController : NetworkBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStarted += GameManager_OnGameStarted;
+        ScreenSizeManager.Instance.OnSizeChanged += SetPlayerPosition;
         playerHalfHeight = GetComponent<SpriteRenderer>().bounds.extents.y / 2;
 
         SetPlayerPosition(this,null);
-    }
-
-    private void OnEnable()
-    {
-        ScreenSizeManager.Instance.OnSizeChanged += SetPlayerPosition;
     }
 
     private void Update()
@@ -48,6 +44,7 @@ public class PlayerController : NetworkBehaviour
     {
         gameStarted = true;
         thisPlayerType = GameManager.Instance.GetLocalPlayerType();
+        this.GetComponent<PlayerInfo>().GameManager_OnGameStarted(this, null);
     }
     private void SetPlayerPosition(object sender, EventArgs eventArgs)
     {
@@ -59,5 +56,9 @@ public class PlayerController : NetworkBehaviour
         else
             pos.x = -screenBounds.x + xOffset;
         this.transform.position = pos;
+    }
+    public bool IsOwnerPlayer()
+    {
+        return thisPlayerType == playerType;
     }
 }

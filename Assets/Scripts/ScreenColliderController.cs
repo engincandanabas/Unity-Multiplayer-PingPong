@@ -11,7 +11,7 @@ public class ScreenColliderController : MonoBehaviour
     {
         SetColliderPositions(this,null);
     }
-    private void OnEnable()
+    private void Start()
     {
         ScreenSizeManager.Instance.OnSizeChanged += SetColliderPositions;
     }
