@@ -28,7 +28,7 @@ public class PlayerController : NetworkBehaviour
         if (!gameStarted) return;
 
 
-        if (thisPlayerType == playerType)
+        if (IsOwner)
         {
             var input = Input.GetAxis("Vertical");
             var movementDir = input * movementSpeed * Time.deltaTime;
@@ -44,7 +44,6 @@ public class PlayerController : NetworkBehaviour
     {
         gameStarted = true;
         thisPlayerType = GameManager.Instance.GetLocalPlayerType();
-        this.GetComponent<PlayerInfo>().GameManager_OnGameStarted(this, null);
     }
     private void SetPlayerPosition(object sender, EventArgs eventArgs)
     {
@@ -55,9 +54,5 @@ public class PlayerController : NetworkBehaviour
         else
             pos.x = -screenBounds.x + xOffset;
         this.transform.position = pos;
-    }
-    public bool IsOwnerPlayer()
-    {
-        return thisPlayerType == playerType;
     }
 }

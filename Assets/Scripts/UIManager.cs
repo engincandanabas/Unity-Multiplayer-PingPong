@@ -22,18 +22,10 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Instance.OnGameStarted += GameManager_OnGameStarted;
         GameManager.Instance.OnScoreChanged += GameManager_OnScoreChanged;
-        GameManager.Instance.OnUsernameGet += GameManager_OnUsernameGet;
     }
     private void GameManager_OnGameStarted(object sender, EventArgs args)
     {
         connectingUI.SetActive(false);
-        
-    }
-    private void GameManager_OnUsernameGet(object sender,  PlayerNamesArgs args)
-    {
-        player1UsernameText.text = args.player1Name.ToString();
-        player2UsernameText.text = args.player2Name.ToString();
-
         gamePlayUI.SetActive(true);
     }
     private void GameManager_OnScoreChanged(object sender, EventArgs args)

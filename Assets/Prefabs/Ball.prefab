@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 6555537897042303576}
   - component: {fileID: 279566746790699463}
   - component: {fileID: 4591995401486647977}
-  - component: {fileID: 4817410236288901230}
   - component: {fileID: 5966870697456846404}
   - component: {fileID: 8214019652508253755}
   - component: {fileID: 9151275985852775426}
+  - component: {fileID: 9774516393517893}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -164,23 +164,6 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &4817410236288901230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4833353814766453162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  NetworkRigidbodyBaseExpanded: 0
-  UseRigidBodyForMotion: 1
-  AutoUpdateKinematicState: 0
-  AutoSetKinematicOnDespawn: 0
 --- !u!58 &5966870697456846404
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -240,7 +223,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
@@ -259,3 +242,20 @@ MonoBehaviour:
   movementSpeed: 10
   maxInitialAngle: 0.2
   velocityMultiplier: 1.1
+--- !u!114 &9774516393517893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4833353814766453162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1

@@ -14,6 +14,9 @@ public class GameManager : NetworkBehaviour
     public event EventHandler OnScoreChanged;
     public event EventHandler<PlayerNamesArgs> OnUsernameGet;
 
+    public GameObject playerLeft;
+    public GameObject playerRight;
+
     public class PlayerNamesArgs : EventArgs
     {
         public FixedString32Bytes player1Name;
@@ -36,12 +39,10 @@ public class GameManager : NetworkBehaviour
     }
     private void OnEnable()
     {
-        OnGameStarted += GetPlayerNames;
         BallController.Instance.OnPlayerScore += BallController_OnPlayerScore;
     }
     private void OnDisable()
     {
-        OnGameStarted -= GetPlayerNames;
         BallController.Instance.OnPlayerScore -= BallController_OnPlayerScore;
     }
 
@@ -71,6 +72,30 @@ public class GameManager : NetworkBehaviour
             OnScoreChanged?.Invoke(this, EventArgs.Empty);
         };
     }
+    [ServerRpc]
+    private void AssignPlayerServerRpc()
+    {
+        Debug.Log("Assigning ownerships...");
+
+        List<ulong> clientIds = new List<ulong>();
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            clientIds.Add(client.ClientId);
+        }
+
+        if (clientIds.Count >= 2)
+        {
+            playerLeft.GetComponent<NetworkObject>().ChangeOwnership(clientIds[0]);
+            playerRight.GetComponent<NetworkObject>().ChangeOwnership(clientIds[1]);
+
+            Debug.Log($"Left assigned to {clientIds[0]}, Right assigned to {clientIds[1]}");
+        }
+        else
+        {
+            Debug.LogWarning("Not enough players to assign ownership.");
+        }
+    }
+
     private void BallController_OnPlayerScore(object sender, OnPlayerScoreArgs eventArgs)
     {
         if (eventArgs.scorePlayerType == PlayerType.PlayerLeft)
@@ -92,6 +117,7 @@ public class GameManager : NetworkBehaviour
         if (NetworkManager.Singleton.ConnectedClients.Count == 2)
         {
             // Start Game
+            AssignPlayerServerRpc();
             TriggerOnGameStartedRpc();
         }
     }
@@ -105,28 +131,7 @@ public class GameManager : NetworkBehaviour
     {
         return localPlayerType;
     }
-    public void GetPlayerNames(object sender, EventArgs eventArgs)
-    {
-        this.Wait(1, () =>
-        {
-            List<FixedString32Bytes> names = new List<FixedString32Bytes>();
-            var left = GameObject.Find("PlayerLeft").GetComponent<PlayerInfo>();
-            var right = GameObject.Find("PlayerRight").GetComponent<PlayerInfo>();
-
-            names.Add(left.PlayerName.Value);
-            names.Add(right.PlayerName.Value);
-
-            PlayerNamesArgs args = new PlayerNamesArgs()
-            {
-                player1Name = names[0],
-                player2Name = names[1]
-            };
-            OnUsernameGet?.Invoke(this, args);
-
-            Debug.LogWarning($"PlayerLeft: {left.PlayerName.Value}, PlayerRight: {right.PlayerName.Value}");
-        });
-       
-    }
+    
     public void GetScores(out int player1Score, out int player2Score)
     {
         player1Score = this.playerLeftScore.Value;
