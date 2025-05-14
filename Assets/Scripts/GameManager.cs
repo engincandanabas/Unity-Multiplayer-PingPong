@@ -89,7 +89,7 @@ public class GameManager : NetworkBehaviour
 
     private void NetworkManager_OnClientConnectedCallback(ulong obj)
     {
-        if (NetworkManager.Singleton.ConnectedClients.Count == 1)
+        if (NetworkManager.Singleton.ConnectedClients.Count == 2)
         {
             // Start Game
             TriggerOnGameStartedRpc();

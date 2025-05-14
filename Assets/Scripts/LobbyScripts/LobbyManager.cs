@@ -101,7 +101,7 @@ public class LobbyManager : MonoBehaviour
                 {
                     if (IsLobbyHost())
                     {
-                        if (joinedLobby.Players.Count == 1)
+                        if (joinedLobby.Players.Count == 2)
                         {
                             // Two players have joined, start game
                             StartGame();

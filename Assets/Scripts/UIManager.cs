@@ -27,12 +27,14 @@ public class UIManager : MonoBehaviour
     private void GameManager_OnGameStarted(object sender, EventArgs args)
     {
         connectingUI.SetActive(false);
-        gamePlayUI.SetActive(true);
+        
     }
     private void GameManager_OnUsernameGet(object sender,  PlayerNamesArgs args)
     {
         player1UsernameText.text = args.player1Name.ToString();
         player2UsernameText.text = args.player2Name.ToString();
+
+        gamePlayUI.SetActive(true);
     }
     private void GameManager_OnScoreChanged(object sender, EventArgs args)
     {

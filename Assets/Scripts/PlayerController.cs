@@ -49,7 +49,6 @@ public class PlayerController : NetworkBehaviour
     private void SetPlayerPosition(object sender, EventArgs eventArgs)
     {
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        Debug.Log(screenBounds.x + " " + screenBounds.y);
         var pos = this.transform.position;
         if (xOffset < 0)
             pos.x = screenBounds.x + xOffset;

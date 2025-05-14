@@ -14,11 +14,11 @@ public class PlayerInfo : NetworkBehaviour
             string playerName = PlayerPrefs.GetString("Username", "Player_" + OwnerClientId);
             Debug.Log("Username :" + playerName);
 
-            SetPlayerNameServerRpc(playerName);
+            SetPlayerNameRpc(playerName);
         }
     }
-    [ServerRpc]
-    public void SetPlayerNameServerRpc(string name)
+    [Rpc(SendTo.Server)]
+    public void SetPlayerNameRpc(string name)
     {
         PlayerName.Value = name;
     }

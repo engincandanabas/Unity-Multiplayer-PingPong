@@ -6,6 +6,9 @@ using Unity.Services.Relay;
 using UnityEngine;
 using System.Linq;
 
+using RelayAllocation = Unity.Services.Relay.Models.Allocation;
+using RelayService = Unity.Services.Relay.RelayService;
+
 public class StartGameManager : MonoBehaviour
 {
 
@@ -44,7 +47,7 @@ public class StartGameManager : MonoBehaviour
     {
         try
         {
-            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
+            RelayAllocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
 
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
             Debug.Log("Allocated Relay JoinCode: " + joinCode);
