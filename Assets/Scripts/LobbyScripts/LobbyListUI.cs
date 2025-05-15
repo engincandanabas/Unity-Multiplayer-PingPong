@@ -7,6 +7,7 @@ using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class LobbyListUI : MonoBehaviour
 {
@@ -17,10 +18,15 @@ public class LobbyListUI : MonoBehaviour
     [SerializeField] private Transform lobbyListContainer;
     [SerializeField] private Transform lobbySingleTemplate;
 
+    [Header("Animation Settings")]
+    [SerializeField] private Ease ease;
+    [SerializeField] private float animDuration;
+    [SerializeField] private Transform childObject;
+
     private void Awake()
     {
         Instance = this;
-        Hide();
+        HideWithoutAnim();
 
         lobbySingleTemplate.gameObject.SetActive(false);
     }
@@ -82,10 +88,21 @@ public class LobbyListUI : MonoBehaviour
     }
     public void Hide()
     {
+        childObject.transform.DOScale(Vector3.zero, 0.2f).SetEase(ease).OnComplete(() =>
+        {
+            this.transform.GetChild(0).gameObject.SetActive(false);
+        });
+        
+    }
+    public void HideWithoutAnim()
+    {
         this.transform.GetChild(0).gameObject.SetActive(false);
     }
     public void Show()
     {
+        childObject.transform.localScale = Vector3.zero;
         this.transform.GetChild(0).gameObject.SetActive(true);
+        childObject.transform.DOScale(Vector3.one, 0.2f).SetEase(ease).SetDelay(0.25f);
+
     }
 }

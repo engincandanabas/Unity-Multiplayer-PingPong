@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,6 +17,10 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerCountText;
     [SerializeField] private Button leaveLobbyButton;
 
+    [Header("Animation Settings")]
+    [SerializeField] private Ease ease;
+    [SerializeField] private float animDuration;
+    [SerializeField] private Transform childObject;
     private void Awake()
     {
         Instance = this;
@@ -36,7 +41,7 @@ public class LobbyUI : MonoBehaviour
         LobbyManager.Instance.OnLeftLobby += LobbyManager_OnLeftLobby;
         LobbyManager.Instance.OnKickedFromLobby += LobbyManager_OnLeftLobby;
 
-        Hide();
+        HideWithoutAnim();
     }
 
     private void LobbyManager_OnLeftLobby(object sender, System.EventArgs e)
@@ -87,13 +92,30 @@ public class LobbyUI : MonoBehaviour
         }
     }
 
-    private void Hide()
+    public void Hide()
     {
-        gameObject.SetActive(false);
-    }
+        childObject.transform.DOScale(Vector3.zero, 0.2f).SetEase(ease).OnComplete(() =>
+        {
+            this.transform.GetChild(0).gameObject.SetActive(false);
+        });
 
-    private void Show()
+    }
+    public void HideWithoutAnim()
     {
-        gameObject.SetActive(true);
+        this.transform.GetChild(0).gameObject.SetActive(false);
+    }
+    public void Show()
+    {
+        if(!this.transform.GetChild(0).gameObject.activeInHierarchy)
+        {
+            childObject.transform.localScale = Vector3.zero;
+            this.transform.GetChild(0).gameObject.SetActive(true);
+            childObject.transform.DOScale(Vector3.one, 0.2f).SetEase(ease).SetDelay(0.25f);
+        }
+        else
+        {
+            this.transform.GetChild(0).gameObject.SetActive(true);
+        }
+
     }
 }
