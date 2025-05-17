@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] private Sound[] sounds;
     private AudioSource[] source;
+    [SerializeField] private AudioMixerGroup mixer;
 
     private void Awake()
     {
@@ -34,6 +36,7 @@ public class AudioManager : MonoBehaviour
             sounds[i].source.clip = sounds[i].clip;
             sounds[i].source.playOnAwake = false;
             sounds[i].source.loop = sounds[i].loop;
+            sounds[i].source.outputAudioMixerGroup = mixer;
         }
     }
     public void PlaySound(string name)
