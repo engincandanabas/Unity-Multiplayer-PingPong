@@ -1,21 +1,22 @@
-# 🏓 Unity NGO Multiplayer Ping Pong
+# Unity Multiplayer Ping Pong
 
-This project is a simple **real-time two-player Ping Pong** game built using Unity’s official multiplayer framework: **Netcode for GameObjects (NGO)**. The goal is to demonstrate how to build a basic server-authoritative multiplayer game using Unity's networking tools.
+## 🎯 Project Overview
 
-## 🎮 Game Overview
+This is my **first multiplayer game project**, developed as a learning exercise to get hands-on experience with Unity's multiplayer systems. The game is a simple real-time two-player Ping Pong built using **Unity 6.0** and the **Netcode for GameObjects** framework. The architecture follows a **host-authoritative** model where the host controls the main game logic and synchronizes the state with the client.
 
-- Players can join as host or client from the main menu.
-- The ball is controlled only by the host and its movement is synchronized across clients.
-- Paddle movements are handled locally and sent to the server, then synced with the other client.
-- The score system is synchronized using network variables.
+## 🧠 How It Works
 
-## 🧠 Technical Details
+- Players join the game by selecting either **host** or **client** from the main menu.
+- The host manages the ball's movement and game logic.
+- Both players control their paddles locally; movements are sent to the host and synchronized with the other player.
+- Scores are tracked and synchronized via network variables.
+- The game demonstrates core multiplayer concepts such as networked transforms, server-authoritative control, and state synchronization.
 
-- Built with a **server-authoritative** architecture.
-- Uses Unity's `NetworkManager` for connection flow (host/client selection).
-- Synchronization of paddles and ball via `NetworkTransform`.
-- Real-time score updates handled with `NetworkVariable`.
-- Simple UI displays score and game status.
+## 🛠️ Technologies Used
+
+- Unity 6.0
+- Netcode for GameObjects (Unity’s official multiplayer framework)
+- C# scripting
 
 ## 📸 Screenshots
 
