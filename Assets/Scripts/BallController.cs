@@ -26,6 +26,7 @@ public class BallController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         GameManager.Instance.OnGameStarted += GameManager_OnGameStarted;
+        GameManager.Instance.OnGameWin += GameManager_OnGameWin;
         OnPlayerScore += ResetBall;
         OnPlayerScore += InitialPush;
     }
@@ -38,6 +39,10 @@ public class BallController : MonoBehaviour
     private void GameManager_OnGameStarted(object sender, EventArgs eventArgs)
     {
         InitialPush(this, null);
+    }
+    private void GameManager_OnGameWin(object sender, GameManager.OnGameWinArgs args)
+    {
+        ResetBall(this,null);
     }
 
     private void InitialPush(object sender, OnPlayerScoreArgs onPlayerScoreArgs)

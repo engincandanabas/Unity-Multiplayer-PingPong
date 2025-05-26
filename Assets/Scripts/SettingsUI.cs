@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-using WebSocketSharp;
 
 public class SettingsUI : MonoBehaviour
 {
@@ -22,6 +21,7 @@ public class SettingsUI : MonoBehaviour
     [SerializeField] private Transform childObject;
 
     Resolution[] resolutions;
+    private List<Resolution> filteredResolutions;
     private void Awake()
     {
         Instance = this;
@@ -34,7 +34,8 @@ public class SettingsUI : MonoBehaviour
     private void SetResolution()
     {
         resolutions = Screen.resolutions;
-        var filteredResolutions = resolutions
+        filteredResolutions = resolutions
+            .Where(r => Mathf.Approximately((float)r.width / r.height, 16f / 9f))
             .GroupBy(r => new Vector2Int(r.width, r.height)) // Ayný çözünürlükte olanlarý grupla
             .Select(g => g.OrderByDescending(r => r.refreshRate).First()) // En yüksek Hz olaný seç
             .OrderByDescending(r => r.width * r.height) // Opsiyonel: çözünürlükleri büyükten küçüðe sýrala
@@ -48,14 +49,14 @@ public class SettingsUI : MonoBehaviour
         List<string> options = new List<string>();
         int currentResIndex = 0;
 
-        for (int i = 0; i < resolutions.Length; i++)
+        for (int i = 0; i < filteredResolutions.Count; i++)
         {
             
-            string option = resolutions[i].width+" x " + resolutions[i].height;
+            string option = filteredResolutions[i].width+" x " + filteredResolutions[i].height;
             options.Add(option);
 
-            if (resolutions[i].width == Screen.currentResolution.width && 
-                resolutions[i].height== Screen.currentResolution.height)
+            if (filteredResolutions[i].width == Screen.currentResolution.width &&
+                filteredResolutions[i].height== Screen.currentResolution.height)
             {
                 currentResIndex = i;
             }
@@ -64,10 +65,11 @@ public class SettingsUI : MonoBehaviour
         resDropdown.AddOptions(options);
         resDropdown.value = currentResIndex;
         resDropdown.RefreshShownValue();
+        SetResolution(currentResIndex);
     }
     public void SetResolution(int resolutionIndex)
     {
-        Resolution resolution = resolutions[resolutionIndex];
+        Resolution resolution = filteredResolutions[resolutionIndex];
         Screen.SetResolution(resolution.width,resolution.height,Screen.fullScreen);
     }
     public void SetVolume(float volume)

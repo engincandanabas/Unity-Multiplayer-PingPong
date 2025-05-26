@@ -1740,7 +1740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1231687449
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2872,10 +2872,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectingUI: {fileID: 925600027}
   gamePlayUI: {fileID: 994093802}
+  endUI: {fileID: 2028100902}
   player1ScoreText: {fileID: 2066707343}
   player2ScoreText: {fileID: 610073122}
   player1UsernameText: {fileID: 1213786628}
   player2UsernameText: {fileID: 1300604815}
+  winPlayerNameText: {fileID: 1502802535}
+  tryAgainButton: {fileID: 1118089869}
 --- !u!1 &1811653873
 GameObject:
   m_ObjectHideFlags: 0

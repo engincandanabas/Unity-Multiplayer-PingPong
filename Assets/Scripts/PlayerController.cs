@@ -9,7 +9,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private float movementSpeed;
     [SerializeField] private float xOffset;
 
-    private bool gameStarted = false;
+    private bool canMove = false;
     private GameManager.PlayerType thisPlayerType;
 
     private Vector2 screenBounds;
@@ -17,6 +17,7 @@ public class PlayerController : NetworkBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStarted += GameManager_OnGameStarted;
+        GameManager.Instance.OnGameWin += GameManager_OnGameWin;
         ScreenSizeManager.Instance.OnSizeChanged += SetPlayerPosition;
         playerHalfHeight = GetComponent<SpriteRenderer>().bounds.extents.y / 2;
 
@@ -25,7 +26,7 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if (!gameStarted) return;
+        if (!canMove) return;
 
 
         if (IsOwner)
@@ -42,8 +43,12 @@ public class PlayerController : NetworkBehaviour
 
     private void GameManager_OnGameStarted(object sender, EventArgs e)
     {
-        gameStarted = true;
+        canMove = true;
         thisPlayerType = GameManager.Instance.GetLocalPlayerType();
+    }
+    private void GameManager_OnGameWin(object sender, GameManager.OnGameWinArgs args)
+    {
+        canMove=false;
     }
     private void SetPlayerPosition(object sender, EventArgs eventArgs)
     {

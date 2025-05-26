@@ -14,6 +14,12 @@ public class GameManager : NetworkBehaviour
     public event EventHandler OnScoreChanged;
     public event EventHandler<PlayerNamesArgs> OnUsernameGet;
 
+    public event EventHandler<OnGameWinArgs> OnGameWin;
+    public class OnGameWinArgs : EventArgs
+    {
+        public FixedString32Bytes playerName;
+    }
+
     public GameObject playerLeft;
     public GameObject playerRight;
 
@@ -108,6 +114,15 @@ public class GameManager : NetworkBehaviour
         }
         Debug.Log("Player1Score : " + playerLeftScore.Value);
         Debug.Log("Player2Score : " + playerRightScore.Value);
+
+        if (playerLeftScore.Value == 3)
+        {
+            OnGameWin?.Invoke(this, new OnGameWinArgs { playerName = "PLAYER 1" });
+        }
+        else if(playerRightScore.Value == 3)
+        {
+            OnGameWin?.Invoke(this, new OnGameWinArgs { playerName = "PLAYER 2" });
+        }
 
         OnScoreChanged?.Invoke(this, null);
     }
