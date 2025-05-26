@@ -1,4 +1,5 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
 public class BallController : MonoBehaviour
@@ -11,11 +12,13 @@ public class BallController : MonoBehaviour
         public GameManager.PlayerType scorePlayerType;
     }
 
+    [SerializeField] private GameObject vfxPrefab;
     [SerializeField] private float movementSpeed;
     [SerializeField] private float maxInitialAngle = 0.67f;
     [SerializeField] private float velocityMultiplier = 1.1f;
     private Rigidbody2D rb;
     private Vector2 direction;
+    private TrailRenderer trailRenderer;
 
     private bool canThrow=false;
 
@@ -27,6 +30,7 @@ public class BallController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        trailRenderer = GetComponent<TrailRenderer>();
         GameManager.Instance.OnGameStarted += GameManager_OnGameStarted;
         GameManager.Instance.OnGameWin += GameManager_OnGameWin;
         OnPlayerScore += ResetBall;
@@ -65,22 +69,42 @@ public class BallController : MonoBehaviour
         GetComponent<SpriteRenderer>().enabled = false;
         rb.linearVelocity = Vector2.zero;
         this.transform.position = Vector2.zero;
-        GetComponent<SpriteRenderer>().enabled = true;
+        trailRenderer.enabled = false;
+        this.Wait(0.25f, () =>
+        {
+            GetComponent<SpriteRenderer>().enabled = true;
+            trailRenderer.enabled = true;
+        });
 
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Score"))
         {
+            SpawnVfxRpc(this.transform.position);
+
             GameManager.PlayerType playerType = (this.transform.position.x < 0) ? GameManager.PlayerType.PlayerRight : GameManager.PlayerType.PlayerLeft;
             OnPlayerScore?.Invoke(this, new OnPlayerScoreArgs
             {
                 scorePlayerType = playerType
             });
+            CinemachineShake.Instance.ShakeCamera();
+            AudioManager.Instance.PlaySound("Wall");
+
+            
         }
         else if (collision.gameObject.CompareTag("Player"))
         {
             rb.linearVelocity *= velocityMultiplier;
+            CinemachineShake.Instance.ShakeCamera();
+            AudioManager.Instance.PlaySound("Score");
+
         }
+    }
+    [Rpc(SendTo.Server)]
+    public void SpawnVfxRpc(Vector3 pos)
+    {
+        GameObject vfx = Instantiate(vfxPrefab, pos, Quaternion.identity);
+        vfx.GetComponent<NetworkObject>().Spawn(true);
     }
 }

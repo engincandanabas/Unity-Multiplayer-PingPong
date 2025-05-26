@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b806d901d839ed45bc9bec5b5ce95fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vfxPrefab: {fileID: 2035240463427389004, guid: d623e9fadd37d314881a429a021ed7d5, type: 3}
   movementSpeed: 10
   maxInitialAngle: 0.2
   velocityMultiplier: 1.1
