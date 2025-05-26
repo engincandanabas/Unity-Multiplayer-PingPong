@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using static GameManager;
@@ -26,12 +27,18 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Instance.OnGameStarted += GameManager_OnGameStarted;
         GameManager.Instance.OnScoreChanged += GameManager_OnScoreChanged;
-        GameManager.Instance.OnGameWin += GameManager_OnGameWin;
+        GameManager.Instance.OnGameWin += GameManager_OnGameWinRpc;
+
+        tryAgainButton.onClick.AddListener(() =>
+        {
+            GameManager.Instance.TriggerOnGameStartedRpc();
+        });
     }
     private void GameManager_OnGameStarted(object sender, EventArgs args)
     {
         connectingUI.SetActive(false);
         gamePlayUI.SetActive(true);
+        endUI.SetActive(false);
     }
     private void GameManager_OnScoreChanged(object sender, EventArgs args)
     {
@@ -39,7 +46,8 @@ public class UIManager : MonoBehaviour
         player1ScoreText.text = player1Score.ToString();
         player2ScoreText.text = player2Score.ToString();
     }
-    private void GameManager_OnGameWin(object sender, OnGameWinArgs args)
+
+    private void GameManager_OnGameWinRpc(object sender, OnGameWinArgs args)
     {
         winPlayerNameText.text = args.playerName + " WIN";
 

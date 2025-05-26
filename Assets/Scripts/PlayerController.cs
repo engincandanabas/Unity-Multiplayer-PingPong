@@ -19,6 +19,7 @@ public class PlayerController : NetworkBehaviour
         GameManager.Instance.OnGameStarted += GameManager_OnGameStarted;
         GameManager.Instance.OnGameWin += GameManager_OnGameWin;
         ScreenSizeManager.Instance.OnSizeChanged += SetPlayerPosition;
+
         playerHalfHeight = GetComponent<SpriteRenderer>().bounds.extents.y / 2;
 
         SetPlayerPosition(this,null);
@@ -49,6 +50,7 @@ public class PlayerController : NetworkBehaviour
     private void GameManager_OnGameWin(object sender, GameManager.OnGameWinArgs args)
     {
         canMove=false;
+        SetPlayerPosition(this,null);
     }
     private void SetPlayerPosition(object sender, EventArgs eventArgs)
     {
@@ -58,6 +60,8 @@ public class PlayerController : NetworkBehaviour
             pos.x = screenBounds.x + xOffset;
         else
             pos.x = -screenBounds.x + xOffset;
+
+        pos.y = 0f;
         this.transform.position = pos;
     }
 }

@@ -18,6 +18,8 @@ public class GameManager : NetworkBehaviour
     public class OnGameWinArgs : EventArgs
     {
         public FixedString32Bytes playerName;
+
+        
     }
 
     public GameObject playerLeft;
@@ -46,6 +48,7 @@ public class GameManager : NetworkBehaviour
     private void OnEnable()
     {
         BallController.Instance.OnPlayerScore += BallController_OnPlayerScore;
+        OnGameWin += GameManager_OnGameWin;
     }
     private void OnDisable()
     {
@@ -117,14 +120,30 @@ public class GameManager : NetworkBehaviour
 
         if (playerLeftScore.Value == 3)
         {
-            OnGameWin?.Invoke(this, new OnGameWinArgs { playerName = "PLAYER 1" });
+            GameWinClientRpc("PLAYER 1");
         }
-        else if(playerRightScore.Value == 3)
+        else if (playerRightScore.Value == 3)
         {
-            OnGameWin?.Invoke(this, new OnGameWinArgs { playerName = "PLAYER 2" });
+            GameWinClientRpc("PLAYER 2");
         }
 
         OnScoreChanged?.Invoke(this, null);
+    }
+    [Rpc(SendTo.ClientsAndHost)]
+    private void GameWinClientRpc(FixedString32Bytes winnerName)
+    {
+        OnGameWin?.Invoke(this, new OnGameWinArgs { playerName = winnerName });
+    }
+    private void GameManager_OnGameWin(object sender, OnGameWinArgs args)
+    {
+        ResetPlayerScoreRpc();
+    }
+
+    [Rpc(SendTo.Server)]
+    private void ResetPlayerScoreRpc()
+    {
+        playerLeftScore.Value = 0;
+        playerRightScore.Value = 0;
     }
 
     private void NetworkManager_OnClientConnectedCallback(ulong obj)
@@ -138,7 +157,7 @@ public class GameManager : NetworkBehaviour
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void TriggerOnGameStartedRpc()
+    public void TriggerOnGameStartedRpc()
     {
         OnGameStarted?.Invoke(this, null);
     }

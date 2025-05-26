@@ -17,6 +17,8 @@ public class BallController : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 direction;
 
+    private bool canThrow=false;
+
     private void Awake()
     {
         Instance = this;
@@ -38,15 +40,19 @@ public class BallController : MonoBehaviour
     }
     private void GameManager_OnGameStarted(object sender, EventArgs eventArgs)
     {
+        canThrow = true;
         InitialPush(this, null);
     }
     private void GameManager_OnGameWin(object sender, GameManager.OnGameWinArgs args)
     {
+        canThrow = false;
         ResetBall(this,null);
     }
 
     private void InitialPush(object sender, OnPlayerScoreArgs onPlayerScoreArgs)
     {
+        if(!canThrow) return;
+
         this.Wait(2, () =>
             {
                 Vector2 dir =(UnityEngine.Random.Range(0,2)==0) ? Vector2.left:Vector2.right;
