@@ -32,9 +32,3 @@ This project is a simple **real-time two-player Ping Pong** game built using Uni
 
 This project serves as a learning-friendly base for developers looking to understand and experiment with Unity's Netcode for GameObjects. The code is kept minimal and readable, making it easy to build upon.
 
----
-![createlobby]()
-![lobbylist]()
-
-![gameplay1]()
-![gameplay2]()
