@@ -45,14 +45,10 @@ public class GameManager : NetworkBehaviour
     {
         Instance = this;
     }
-    private void OnEnable()
+    private void Start()
     {
         BallController.Instance.OnPlayerScore += BallController_OnPlayerScore;
         OnGameWin += GameManager_OnGameWin;
-    }
-    private void OnDisable()
-    {
-        BallController.Instance.OnPlayerScore -= BallController_OnPlayerScore;
     }
 
     public override void OnNetworkSpawn()

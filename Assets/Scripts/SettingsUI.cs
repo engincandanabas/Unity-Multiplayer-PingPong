@@ -54,12 +54,6 @@ public class SettingsUI : MonoBehaviour
             
             string option = filteredResolutions[i].width+" x " + filteredResolutions[i].height;
             options.Add(option);
-
-            if (filteredResolutions[i].width == Screen.currentResolution.width &&
-                filteredResolutions[i].height== Screen.currentResolution.height)
-            {
-                currentResIndex = i;
-            }
         }
 
         resDropdown.AddOptions(options);
