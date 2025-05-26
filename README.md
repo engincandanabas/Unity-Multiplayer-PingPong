@@ -21,8 +21,11 @@ This project is a simple **real-time two-player Ping Pong** game built using Uni
 
 <p align="center">
 
-  <img src="[screenshots/menu.png](https://github.com/user-attachments/assets/e394bdf1-c14f-49bc-9ea6-51fed5a4a9d6)" width="400" alt="Main Menu"/>
-  <img src="screenshots/gameplay.png" width="400" alt="Gameplay Screen"/>
+  <img src="https://github.com/user-attachments/assets/e394bdf1-c14f-49bc-9ea6-51fed5a4a9d6" width="400" alt="Settings"/>
+  <img src="https://github.com/user-attachments/assets/8caa7c52-f2ce-48eb-9f3f-9f577e360126" width="400" alt="Create Lobby"/>
+  <img src="https://github.com/user-attachments/assets/b8c135a9-f21c-4a2b-b8de-7b2929e67d54" width="400" alt="Lobby List"/>
+  <img src="https://github.com/user-attachments/assets/9e2f9473-4843-4396-b1c8-84cb156c5c6e" width="400" alt="Gameplay1"/>
+  <img src="https://github.com/user-attachments/assets/159d476f-562e-4f47-9982-500f95e6223c" width="400" alt="Gameplay2"/>
 </p>
 
 ## 🎯 Purpose
@@ -30,4 +33,8 @@ This project is a simple **real-time two-player Ping Pong** game built using Uni
 This project serves as a learning-friendly base for developers looking to understand and experiment with Unity's Netcode for GameObjects. The code is kept minimal and readable, making it easy to build upon.
 
 ---
+![createlobby]()
+![lobbylist]()
 
+![gameplay1]()
+![gameplay2]()
